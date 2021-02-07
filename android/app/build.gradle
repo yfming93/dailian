@@ -1,0 +1,90 @@
+//def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+//    throw new Exception("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+apply plugin: 'com.android.application'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+android {
+    compileSdkVersion 29
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.ksd.bourse"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    /*flavorDimensions "environment"
+// 多渠道/多环境 的不同配置
+    productFlavors {
+
+        *//**
+         * @fuction 正式
+         *//*
+        online {
+            dimension "environment"
+            // 每个环境包名不同
+            applicationId "com.ksd.bourse"
+//            versionCode 144
+//            versionName "1.2.7"
+//            resValue "string", "app_name", "Waiting Tok"
+            ndk {
+                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
+        }
+    }*/
+
+}
+
+flutter {
+    source '../..'
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'party.52it:Bip44ForJava:1.0.0'
+//    implementation "org.web3j:core:4.5.12"
+    implementation "org.web3j:core:4.2.0-android"
+    implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation(name: 'captcha-release_v3.1.7', ext: 'aar')
+
+}
