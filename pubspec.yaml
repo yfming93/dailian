@@ -28,7 +28,7 @@ dependencies:
 #  package_info: ^0.4.3+2
 
   #用来加载网络数据
-  dio: 3.0.9
+  dio: ^5.0.3
 
 #  # WebView
 #  webview_flutter: ^1.0.7
